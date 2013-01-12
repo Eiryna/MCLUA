@@ -58,12 +58,14 @@ end
 function Listening()
 	local temp_msg = {}
 	while continue do
-		local L_id, L_msg, L_dist = rednet.receive()
-		temp_msg = L_msg
-		if temp_msg["msg"] == "WHOIS" then
-			print("Message recu")
-			if temp_msg["n"] == os.getComputerLabel() then
-				MQSNP.Send(L_id, os.getComputerID())
+		local L_id, L_msg, L_dist = rednet.receive(5)
+		if not (L_id == nil) then
+			temp_msg = L_msg
+			if temp_msg["msg"] == "WHOIS" then
+				print("Message recu")
+				if temp_msg["n"] == os.getComputerLabel() then
+					MQSNP.Send(L_id, os.getComputerID())
+				end
 			end
 		end
 	end
@@ -72,12 +74,14 @@ end
 function Hello()
 	local r_msg
 	while continue do
-		local H_id, H_msg, H_dist = rednet.receive()
-		if H_msg == "HELLO" then
-			if (isRegistered == false) then
-				if MQSNP.Send(H_id, "WHO_MSG") then
-					r_msg = MQSNP.Receive(H_id)
-					term.write(r_msg)
+		local H_id, H_msg, H_dist = rednet.receive(5)
+		if not (H_id == nil) then
+			if H_msg == "HELLO" then
+				if (isRegistered == false) then
+					if MQSNP.Send(H_id, "WHO_MSG") then
+						r_msg = MQSNP.Receive(H_id)
+						term.write(r_msg)
+					end
 				end
 			end
 		end
