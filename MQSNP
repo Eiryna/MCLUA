@@ -40,6 +40,11 @@ function Send(id, msg)
 			else
 				return false
 			end
+		else
+			rednet.send(id, "BUSY")
+			term.setCursorPos(3,5)
+			term.write(id.." BUSY Sent")
+			return "Error"
 		end
 	end
 	while MsgLoop do
@@ -93,12 +98,8 @@ end
 function WhoIs(Name)
 	local WISM = {msg = "WHOIS", n=Name}
 	local S_msg = textutils.serialize(WISM)
-	print("Broadcast :"..S_msg)
 	rednet.broadcast(S_msg)
-	print("En attente reponse")
 	local R_id, R_msg, R_dist = rednet.receive()
-	print (R_id)
 	WIS_id = Receive(R_id)
-	print ("C'est : "..WIS_id)
 	return WIS_id
 end

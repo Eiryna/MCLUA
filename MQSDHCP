@@ -49,7 +49,7 @@ function HndKey()
 		if event == "key" then
 			if param ==  45 then
 				continue = false
-				break
+				return
 			end
 		end
 	end
