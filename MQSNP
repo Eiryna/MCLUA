@@ -1,7 +1,7 @@
 -- MoQleShon Network Protocol API by Liltine & Eiryna v1.0
 
 local R_busy = false
-local netside
+local netside = "right"
 
 function CheckOnline()
 	if rednet.isOpen(netside) then

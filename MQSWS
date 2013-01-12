@@ -1,7 +1,7 @@
 --MoQleShron Workstation OS by Liltine & Eiryna v 1.0
 
 os.loadAPI("MQSNP")
-local netside
+local netside = "right"
 local network
 local ConfigFile = "WSConfig"
 
