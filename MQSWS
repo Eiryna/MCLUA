@@ -17,7 +17,6 @@ function Init()
 	else
 		term.setCursorPos(1,2)
 		term.write("Network interface not found!")
-		break
 	end
 	
 	if fs.exists(ConfigFile) then

@@ -17,6 +17,6 @@ end
 local tserver = tArgs[1]
 
 if tserver == "DHCP" then
-	MQSDCHP.netside = "right"
+	MQSDHCP.netside = "right"
 	MQSDHCP.Init()
 end
