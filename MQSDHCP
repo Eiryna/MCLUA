@@ -61,7 +61,7 @@ function Listening()
 		local L_id, L_msg, L_dist = rednet.receive()
 		temp_msg = L_msg
 		if temp_msg["msg"] == "WHOIS" then
-			if temp_msg["name"] == os.getComputerLabel() then
+			if temp_msg["n"] == os.getComputerLabel() then
 				MQSNP.Send(L_id, os.getComputerID())
 			end
 		end
@@ -97,7 +97,7 @@ end
 function ListWSTable()
 	term.clear()
 	term.setCursorPos(1,1)
-	term.write("Workstations Listint")
+	term.write("Workstations Listening")
 	for i=1,#WSTable do
 		term.setCursorPos(1,(2+i))
 		term.write(WSTable[i])
