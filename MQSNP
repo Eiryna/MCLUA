@@ -44,7 +44,7 @@ function Send(id, msg)
 	while MsgLoop do
 		S_id, S_msg, S_dist = rednet.receive()
 		if S_id == id then
-			if S_Msg == "RCV_OK" then
+			if S_msg == "RCV_OK" then
 				term.write(id.." RCV_OK Received")
 				term.setCursorPos(4,6)
 				MsgAkn = true
