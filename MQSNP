@@ -68,7 +68,7 @@ function Receive(id)
 			local R_id, R_msg, R_dist = rednet.receive()
 			if R_id == id then
 				term.setCursorPos(2,4)
-				term.write(id.." "..msg.." Received")
+				term.write(id.." "..R_msg.." Received")
 				-- Implémenter traitement du msg
 				rednet.send(id, "RCV_OK")
 				term.setCursorPos(3,5)
