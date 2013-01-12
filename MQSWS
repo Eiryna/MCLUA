@@ -3,7 +3,7 @@
 os.loadAPI("MQSNP")
 local netside = "right"
 local network
-local ConfigFile = "WSConfig"
+local ConfigFile = "ConfigFile"
 local Config = {}
 
 function Init()

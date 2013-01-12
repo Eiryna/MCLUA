@@ -63,7 +63,8 @@ function Listening()
 			temp_msg = textutils.unserialize(L_msg)
 			if temp_msg["msg"] == "WHOIS" then
 				if temp_msg["n"] == os.getComputerLabel() then
-					MQSNP.Send(L_id, os.getComputerID())
+					local f_id = os.getComputerID()
+					MQSNP.Send(L_id, f_id)
 				end
 			end
 		end
