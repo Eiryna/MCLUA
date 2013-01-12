@@ -1,0 +1,68 @@
+-- Network peripheral side.
+local R_busy = false
+local netside
+
+function CheckOnline()
+	if rednet.isOpen(netside) then
+		return true
+	else
+		return false
+	end
+end
+
+function Send(id, msg)
+	local MsgLoop = false
+	local ten, ten2 = 0, 0
+	local MsgAkn = false
+		
+	rednet.send(id,"INC_MSG")
+	while (MsgLoop == false) do
+		local S_id, S_msg, S_dist = rednet.receive()
+		if S_id == id then
+			if S_Msg == "LIS_MSG" then
+				rednet.send(id, msg)
+				MsgLoop = true
+			elseif S_MSG == "BUSY" then
+				ten = ten + 1
+				if ten == 5 then 
+					MsgAkn = false
+				end
+				os.sleep(1)
+			else
+				return false
+			end
+		end
+	end
+	while MsgLoop do
+		S_id, S_msg, S_dist = rednet.receive()
+		if S_id == id then
+			if S_Msg == "RCV_OK" then
+				MsgAkn = true
+				MsgLoop = false
+			else
+				MsgAkn = false
+			end
+		end
+	end
+	return MsgAkn
+end
+
+function Receive(id)
+	local loop = true
+	if (R_busy == false) then
+		R_busy == true
+		rednet.send(id, "LIS_MSG")
+		while loop then
+			local R_id, R_msg, R_dist = rednet.receive()
+			If R_id == id then
+				-- Implémenter traitement du msg
+				rednet.send("RCV_OK")
+				loop = false
+			else
+				rednet.send(id, "BUSY")
+			end
+		end
+	else
+		rednet.send(id, "BUSY")
+	end
+end
