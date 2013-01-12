@@ -76,7 +76,7 @@ function Receive(id)
 end
 
 function WhoIs(Name)
-	local WISM = {msg = "WHOIS", n=Name}
+	local WISM = {msg = "WHOIS", n=Name, typ=""}
 	local S_msg = textutils.serialize(WISM)
 	rednet.broadcast(S_msg)
 	local R_id, R_msg, R_dist = rednet.receive()

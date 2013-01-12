@@ -31,7 +31,8 @@ end
 
 function Activate()
 	local dhcpid = MQSNP.WhoIs("DHCP")
-	local temp_data = {msg="HELLO", typ="TEST"}
+	local name = os.getComputerLabel()
+	local temp_data = {msg="HELLO", n=Name, typ="TEST"}
 	local data = textutils.serialize(data)
 	MQSNP.Send(dhcpid, data)
 	local a_id, a_msg, a_dist = rednet.receive(5)
@@ -51,8 +52,3 @@ function LoadConfigFile()
 	term.setCursorPos(1,4)
 	term.write("ConfigFile File Loaded")
 end
-
-function InitReader()
-
-end
-
