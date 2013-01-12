@@ -58,7 +58,7 @@ function Receive(id)
 		R_busy = true
 		rednet.send(id, "LIS_MSG")
 		term.write(id.." LIS_MSG Sent")
-		while loop then
+		while loop do
 			local R_id, R_msg, R_dist = rednet.receive()
 			If R_id == id then
 				term.write(id.." "..msg.." Received")
