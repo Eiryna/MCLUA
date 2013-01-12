@@ -1,4 +1,4 @@
--- MQSServer by Lilitine & Eiryna v1.0
+-- MQSServer by Liltine & Eiryna v1.0
 
 os.loadAPI("MQSDHCP")
 
