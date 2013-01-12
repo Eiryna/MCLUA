@@ -1,0 +1,22 @@
+-- MQSServer by Lilitine & Eiryna v1.0
+
+os.loadAPI("MQSDHCP")
+
+local funtion printUsage()
+	print("Usages :")
+	print("MQSServer <server type>")
+	print ("DHCP for DHCP server")
+end
+
+local tArgs = { ... }
+if #tArgs < 1 then
+	printUsage()
+	return
+end
+
+local tserver = tArgs[1]
+
+if tserver == "DHCP" then
+	MQSDCHP.netside = "right"
+	MQSDHCP.Init()
+end
