@@ -97,6 +97,6 @@ function WhoIs(Name)
 	rednet.broadcast(S_msg)
 	print("En attente reponse")
 	local R_id, R_msg, R_dist = rednet.receive()
-	WIS_id = Receive(id)
+	WIS_id = Receive(R_id)
 	return WIS_id
 end
