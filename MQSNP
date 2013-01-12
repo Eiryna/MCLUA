@@ -17,21 +17,13 @@ function Send(id, msg)
 	local MsgAkn = false
 		
 	rednet.send(id,"INC_MSG")
-	term.setCursorPos(1,3)
-	term.write(id.." INC_MSG Sent")
 	while (MsgLoop == false) do
 		local S_id, S_msg, S_dist = rednet.receive()
 		if S_id == id then
 			if S_msg == "LIS_MSG" then
-				term.write(id.." LIS_MSG Received")
-				term.setCursorPos(2,4)
 				rednet.send(id, msg)
-				term.write(id.." "..msg.." Sent")
-				term.setCursorPos(3,5)
 				MsgLoop = true
 			elseif S_MSG == "BUSY" then
-				term.write(id.." BUSY Received")
-				term.setCursorPos(2,4)
 				ten = ten + 1
 				if ten == 5 then 
 					MsgAkn = false
@@ -42,8 +34,6 @@ function Send(id, msg)
 			end
 		else
 			rednet.send(id, "BUSY")
-			term.setCursorPos(3,5)
-			term.write(id.." BUSY Sent")
 			return "Error"
 		end
 	end
@@ -51,8 +41,6 @@ function Send(id, msg)
 		S_id, S_msg, S_dist = rednet.receive()
 		if S_id == id then
 			if S_msg == "RCV_OK" then
-				term.write(id.." RCV_OK Received")
-				term.setCursorPos(4,6)
 				MsgAkn = true
 				MsgLoop = false
 			else
@@ -73,24 +61,16 @@ function Receive(id)
 		while loop do
 			local R_id, R_msg, R_dist = rednet.receive()
 			if R_id == id then
-				term.setCursorPos(2,4)
-				term.write(id.." "..R_msg.." Received")
 				rednet.send(id, "RCV_OK")
-				term.setCursorPos(3,5)
-				term.write(id.." RCV_OK Sent")
 				R_busy = false
 				loop = false
 				return msg
 			else
-				term.setCursorPos(3,5)
 				rednet.send(id, "BUSY")
-				term.write(id.." BUSY Sent")
 			end
 		end
 	else
 		rednet.send(id, "BUSY")
-		term.setCursorPos(3,5)
-		term.write(id.." BUSY Sent")
 		return "Error"
 	end
 end
