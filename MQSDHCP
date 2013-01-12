@@ -20,7 +20,7 @@ function Init()
 	else
 		term.setCursorPos(1,2)
 		term.write("Network interface not found!")
-		break
+		return
 	end
 	
 	if fs.exists(WSFile) then
