@@ -60,7 +60,7 @@ function Listening()
 	while continue do
 		local L_id, L_msg, L_dist = rednet.receive(5)
 		if not (L_id == nil) then
-			temp_msg = L_msg
+			temp_msg = textutils.unserialize(L_msg)
 			print(temp_msg[1] .." ".. temp_msg[2])
 			if temp_msg["msg"] == "WHOIS" then
 				print("Message recu")
