@@ -60,7 +60,7 @@ function Receive(id)
 		term.write(id.." LIS_MSG Sent")
 		while loop do
 			local R_id, R_msg, R_dist = rednet.receive()
-			If R_id == id then
+			if R_id == id then
 				term.write(id.." "..msg.." Received")
 				-- Implémenter traitement du msg
 				rednet.send(id, "RCV_OK")
