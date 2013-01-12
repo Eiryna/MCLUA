@@ -16,13 +16,17 @@ function Send(id, msg)
 	local MsgAkn = false
 		
 	rednet.send(id,"INC_MSG")
+	term.write(id.." INC_MSG Sent")
 	while (MsgLoop == false) do
 		local S_id, S_msg, S_dist = rednet.receive()
 		if S_id == id then
 			if S_Msg == "LIS_MSG" then
+				term.write(id.." LIS_MSG Received")
 				rednet.send(id, msg)
+				term.write(id.." "..msg.." Sent")
 				MsgLoop = true
 			elseif S_MSG == "BUSY" then
+				term.write(id.." BUSY Received")
 				ten = ten + 1
 				if ten == 5 then 
 					MsgAkn = false
@@ -37,6 +41,7 @@ function Send(id, msg)
 		S_id, S_msg, S_dist = rednet.receive()
 		if S_id == id then
 			if S_Msg == "RCV_OK" then
+				term.write(id.." RCV_OK Received")
 				MsgAkn = true
 				MsgLoop = false
 			else
@@ -52,17 +57,22 @@ function Receive(id)
 	if (R_busy == false) then
 		R_busy == true
 		rednet.send(id, "LIS_MSG")
+		term.write(id.." LIS_MSG Sent")
 		while loop then
 			local R_id, R_msg, R_dist = rednet.receive()
 			If R_id == id then
+				term.write(id.." "..msg.." Received")
 				-- Implémenter traitement du msg
-				rednet.send("RCV_OK")
+				rednet.send(id, "RCV_OK")
+				term.write(id.." RCV_OK Sent")
 				loop = false
 			else
 				rednet.send(id, "BUSY")
+				term.write(id.." BUSY Sent")
 			end
 		end
 	else
 		rednet.send(id, "BUSY")
+		term.write(id.." BUSY Sent")
 	end
 end
