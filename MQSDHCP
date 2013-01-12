@@ -4,7 +4,7 @@ os.loadAPI("MQSNP")
 
 local continue = true
 local network
-local netside
+local netside = "right"
 local WSFile = "/DHCP/WSTable"
 local WSTable = {}
 
@@ -31,7 +31,7 @@ function Init()
 		term.setCursorPos(1,3)
 		term.write("WSTable file not found!")
 	end
-	Activate
+	Activate()
 end
 
 function Activate()
@@ -58,7 +58,7 @@ end
 function Listening()
 	local temp_msg = {}
 	while continue do
-		local L_id, L_msg, L_dist = redenet.receive()
+		local L_id, L_msg, L_dist = rednet.receive()
 		temp_msg = L_msg
 		if temp_msg["msg"] == "WHOIS" then
 			if temp_msg["name"] == os.getComputerLabel() then
@@ -71,8 +71,8 @@ end
 function Hello()
 	local r_msg
 	while continue do
-		local H_id, H_msg, H_dist = redenet.receive()
-		if H_msg = "HELLO" then
+		local H_id, H_msg, H_dist = rednet.receive()
+		if H_msg == "HELLO" then
 			if (isRegistered == false) then
 				if MQSNP.Send(H_id, "WHO_MSG") then
 					r_msg = MQSNP.Receive(H_id)
@@ -109,7 +109,6 @@ function isRegistered(WSid)
 	for i=1,#WSTable do
 		if (WSTable[i][1] == WSid) then
 			return true
-			break
 		end
 	end
 	return false
