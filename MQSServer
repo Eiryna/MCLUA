@@ -2,7 +2,7 @@
 
 os.loadAPI("MQSDHCP")
 
-local funtion printUsage()
+local function printUsage()
 	print("Usages :")
 	print("MQSServer <server type>")
 	print ("DHCP for DHCP server")
