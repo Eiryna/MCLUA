@@ -5,6 +5,7 @@ local netside = "right"
 local network
 local ConfigFile = "ConfigFile"
 local Config = {}
+local reader
 
 function Init()
 	if peripheral.isPresent(netside) then
@@ -53,6 +54,10 @@ function LoadConfigFile()
 end
 
 function InitReader()
-
+ reader = peripheral.wrap(Config["readerside"])
+ pid, state, title, info = reader.get(1)
+ for key,data in pairs(info) do
+	print("["..key.."]= "..data)
+ end
 end
 
