@@ -1,0 +1,47 @@
+--MoQleShron Workstation OS by Liltine & Eiryna v 1.0
+
+os.loadAPI("MQSNP")
+local netside
+local network
+local ConfigFile = "WSConfig"
+
+function Init()
+	if peripheral.isPresent(netside) then
+		term.setCursorPos(1,1)
+		term.write("Initializing network interface...")
+		network = peripheral.wrap(netside)
+		network.open(netside)
+		rednet.open(netside)
+		term.setCursorPos(1,2)
+		term.write("Network interface Initialized")
+	else
+		term.setCursorPos(1,2)
+		term.write("Network interface not found!")
+		break
+	end
+	
+	if fs.exists(ConfigFile) then
+		LoadConfigFile()
+	else
+		term.setCursorPos(1,3)
+		term.write("ConfigFile file not found!")
+	end
+	Activate()
+end
+
+function Activate()
+	
+	rednet.broadcast("HELLO")
+	
+end
+
+function LoadConfigFile()
+	local file = fs.open(ConfigFile,"r")
+	term.setCursorPos(1,3)
+	term.write("Loading WSTable File...")
+	local data = file.readAll()
+	WSTable = textutils.unserialise(data)
+	file.close()
+	term.setCursorPos(1,4)
+	term.write("WSTable File Loaded")
+end

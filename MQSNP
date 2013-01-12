@@ -1,4 +1,5 @@
--- Network peripheral side.
+-- MoQleShon Network Protocol API by Liltine & Eiryna v1.0
+
 local R_busy = false
 local netside
 
@@ -69,12 +70,12 @@ function Receive(id)
 			if R_id == id then
 				term.setCursorPos(2,4)
 				term.write(id.." "..R_msg.." Received")
-				-- Implémenter traitement du msg
 				rednet.send(id, "RCV_OK")
 				term.setCursorPos(3,5)
 				term.write(id.." RCV_OK Sent")
 				R_busy = false
 				loop = false
+				return msg
 			else
 				term.setCursorPos(3,5)
 				rednet.send(id, "BUSY")
@@ -85,5 +86,15 @@ function Receive(id)
 		rednet.send(id, "BUSY")
 		term.setCursorPos(3,5)
 		term.write(id.." BUSY Sent")
+		return "Error"
 	end
+end
+
+function WhoIs(Name)
+	local WISM = {msg = "WHOIS", n=Name}
+	local S_msg = textutils.serialize(WISM)
+	rednet.broadcast(S_msg)
+	local R_id, R_msg, R_dist = rednet.receive()
+	WIS_id = Receive(id)
+	return WIS_id
 end

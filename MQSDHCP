@@ -1,0 +1,116 @@
+-- MoQleShron DHCP Server by Lilitine & Eiryna v1.0
+
+os.loadAPI("MQSNP")
+
+local continue = true
+local network
+local netside
+local WSFile = "/DHCP/WSTable"
+local WSTable = {}
+
+function Init()
+	if peripheral.isPresent(netside) then
+		term.setCursorPos(1,1)
+		term.write("Initializing network interface...")
+		network = peripheral.wrap(netside)
+		network.open(netside)
+		rednet.open(netside)
+		term.setCursorPos(1,2)
+		term.write("Network interface Initialized")
+	else
+		term.setCursorPos(1,2)
+		term.write("Network interface not found!")
+		break
+	end
+	
+	if fs.exists(WSFile) then
+		LoadWSFile()
+		os.sleep(2)
+		ListWSTable()
+	else
+		term.setCursorPos(1,3)
+		term.write("WSTable file not found!")
+	end
+	Activate
+end
+
+function Activate()
+	term.clear()
+	term.setCursorPos(1,1)
+	term.write("DHCP Server Online")
+	rednet.broadcast("DHCP Online")
+	
+	parallel.waitForAll(Hello, HndKey, Listening)
+end
+
+function HndKey()
+	while continue do
+		local event, param = os.pullEvent("key")
+		if event == "key" then
+			if param ==  45 then
+				continue = false
+				break
+			end
+		end
+	end
+end
+
+function Listening()
+	local temp_msg = {}
+	while continue do
+		local L_id, L_msg, L_dist = redenet.receive()
+		temp_msg = L_msg
+		if temp_msg["msg"] == "WHOIS" then
+			if temp_msg["name"] == os.getComputerLabel() then
+				MQSNP.Send(L_id, os.getComputerID())
+			end
+		end
+	end
+end
+
+function Hello()
+	local r_msg
+	while continue do
+		local H_id, H_msg, H_dist = redenet.receive()
+		if H_msg = "HELLO" then
+			if (isRegistered == false) then
+				if MQSNP.Send(H_id, "WHO_MSG") then
+					r_msg = MQSNP.Receive(H_id)
+					term.write(r_msg)
+				end
+			end
+		end
+	end
+end
+
+function LoadWSFile()
+	local file = fs.open(WSFile,"r")
+	term.setCursorPos(1,3)
+	term.write("Loading WSTable File...")
+	local data = file.readAll()
+	WSTable = textutils.unserialise(data)
+	file.close()
+	term.setCursorPos(1,4)
+	term.write("WSTable File Loaded")
+end
+
+function ListWSTable()
+	term.clear()
+	term.setCursorPos(1,1)
+	term.write("Workstations Listint")
+	for i=1,#WSTable do
+		term.setCursorPos(1,(2+i))
+		term.write(WSTable[i])
+	end
+end
+
+function isRegistered(WSid)
+	local result = false
+	for i=1,#WSTable do
+		if (WSTable[i][1] == WSid) then
+			return true
+			break
+		end
+	end
+	return false
+end
