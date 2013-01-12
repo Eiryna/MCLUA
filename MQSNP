@@ -55,7 +55,7 @@ end
 function Receive(id)
 	local loop = true
 	if (R_busy == false) then
-		R_busy == true
+		R_busy = true
 		rednet.send(id, "LIS_MSG")
 		term.write(id.." LIS_MSG Sent")
 		while loop then
@@ -65,6 +65,7 @@ function Receive(id)
 				-- Implémenter traitement du msg
 				rednet.send(id, "RCV_OK")
 				term.write(id.." RCV_OK Sent")
+				R_busy = false
 				loop = false
 			else
 				rednet.send(id, "BUSY")
