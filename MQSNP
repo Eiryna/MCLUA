@@ -21,7 +21,7 @@ function Send(id, msg)
 	while (MsgLoop == false) do
 		local S_id, S_msg, S_dist = rednet.receive()
 		if S_id == id then
-			if S_Msg == "LIS_MSG" then
+			if S_msg == "LIS_MSG" then
 				term.write(id.." LIS_MSG Received")
 				term.setCursorPos(2,4)
 				rednet.send(id, msg)
