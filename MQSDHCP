@@ -61,6 +61,9 @@ function Listening()
 		local L_id, L_msg, L_dist = rednet.receive(5)
 		if not (L_id == nil) then
 			temp_msg = textutils.unserialize(L_msg)
+			for tkey , tdata in pairs(temp_msg) do
+				print("key : "..tkey.." data : "..tdata)
+			end
 			if temp_msg["msg"] == "HELLO" then
 				print (temp_msg["typ"])
 			elseif temp_msg["msg"] == "WHOIS" then
