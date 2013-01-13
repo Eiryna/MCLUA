@@ -71,7 +71,11 @@ end
 
 function getMessage()
 	msg= table.remove(messageTable, 1)
-	return textutils.unserialize(msg)
+	if not (msg == nil) then 
+		return textutils.unserialize(msg)
+	else
+		return nil
+	end
 end
 
 function WhoIs(Name)
