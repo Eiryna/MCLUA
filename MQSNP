@@ -68,7 +68,12 @@ function Receive()
 					end
 			end
 		else
-		--todo whois response
+			tablemsg=textutils.unserialize(RS_msg)
+			if not (tablemsg== nil) then
+				if (tablemsg["msg"]=="WHOIS" and tablemsg["n"]==os.getComputerLabel()) then
+					MQSNP.Send(RS_id,"WHO_RSP",tostring(os.getComputerID()))
+				end
+			end
 		end
 end
 
@@ -82,7 +87,7 @@ function getMessage()
 end
 
 function WhoIs(Name)
-	local WISM = {msg = "WHOIS", n=Name, typ="" }
+	local WISM = {msg = "WHOIS", n=Name}
 	local S_msg = textutils.serialize(WISM)
 	rednet.broadcast(S_msg)
 end
