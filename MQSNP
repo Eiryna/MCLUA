@@ -54,7 +54,7 @@ end
 function Receive()
 	local loop = true
 		local RS_id, RS_msg, RS_dict = rednet.receive()
-		if RS_msg = "INC_MSG" then
+		if RS_msg == "INC_MSG" then
 			rednet.send(RS_id, "LIS_MSG")
 			while loop do
 				local R_id, R_msg, R_dist = rednet.receive()
