@@ -12,7 +12,7 @@ function CheckOnline()
 	end
 end
 
-function Send(id, msg)
+function Send(id, acanal, amsg)
 	local MsgLoop = false
 	local ten =  0
 	local MsgAkn = false
@@ -22,7 +22,7 @@ function Send(id, msg)
 		local S_id, S_msg, S_dist = rednet.receive()
 		if S_id == id then
 			if S_msg == "LIS_MSG" then
-				rednet.send(id, msg)
+				rednet.send(id, textutils.serialize({canal=acanal, msg=amsg}))
 				MsgLoop = true
 			elseif S_msg == "BUSY" then
 				ten = ten + 1
@@ -60,12 +60,15 @@ function Receive()
 				local R_id, R_msg, R_dist = rednet.receive()
 				    if (R_id==RS_id) then
 							rednet.send(R_id, "RCV_OK")
+							tablemsg=textutils.unserialize(R_msg)
 							loop = false
-							table.insert (messageTable , textutils.serialize({id=R_id,msg=R_msg}))	
+							table.insert (messageTable , textutils.serialize({id=R_id,canal=tablemsg["canal"],msg=tablemsg["canal"]}))	
 					else
 						rednet.send(R_id, "BUSY")
 					end
 			end
+		else
+		--todo whois response
 		end
 end
 
