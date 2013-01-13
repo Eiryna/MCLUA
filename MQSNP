@@ -54,24 +54,17 @@ end
 
 function Receive()
 	local loop = true
-	if R_Busy == false then
 		local RS_id, RS_msg, RS_dict = rednet.receive()
 		if RS_msg = "INC_MSG" then
-			R_busy = true
-			rednet.send(id, "LIS_MSG")
+			rednet.send(RS_id, "LIS_MSG")
 			while loop do
 				local R_id, R_msg, R_dist = rednet.receive()
-					rednet.send(id, "RCV_OK")
-					R_busy = false
+					rednet.send(R_id, "RCV_OK")
 					loop = false
 					table.insert (messageTable , textutils.serialize({id=R_id,msg=R_msg}))
 				end
 			end
 		end
-	else
-		rednet.send(id, "BUSY")
-		return "Error"
-	end
 end
 
 function getMessage()
