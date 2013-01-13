@@ -62,7 +62,7 @@ function Receive()
 							rednet.send(R_id, "RCV_OK")
 							tablemsg=textutils.unserialize(R_msg)
 							loop = false
-							table.insert (messageTable , textutils.serialize({id=R_id,canal=tablemsg["canal"],msg=tablemsg["canal"]}))	
+							table.insert (messageTable , textutils.serialize({id=R_id,canal=tablemsg["canal"],msg=tablemsg["msg"]}))	
 					else
 						rednet.send(R_id, "BUSY")
 					end
