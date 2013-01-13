@@ -27,7 +27,7 @@ function Send(id, msg)
 			elseif S_msg == "BUSY" then
 				ten = ten + 1
 				if ten == 5 then 
-					MsgAkn = false
+					return false
 				end
 				os.sleep(1)
 			else
