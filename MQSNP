@@ -2,6 +2,7 @@
 
 local R_busy = false
 local netside = "right"
+local messageTable = {}
 
 function CheckOnline()
 	if rednet.isOpen(netside) then
@@ -51,22 +52,19 @@ function Send(id, msg)
 	return MsgAkn
 end
 
-function Receive(id)
+function Receive()
 	local loop = true
 	if R_Busy == false then
 		local RS_id, RS_msg, RS_dict = rednet.receive()
-		if  (RS_id == id ) and RS_msg = "INC_MSG" then
+		if RS_msg = "INC_MSG" then
 			R_busy = true
 			rednet.send(id, "LIS_MSG")
 			while loop do
 				local R_id, R_msg, R_dist = rednet.receive()
-				if R_id == id then
 					rednet.send(id, "RCV_OK")
 					R_busy = false
 					loop = false
-					return msg
-				else
-					rednet.send(id, "BUSY")
+					table.insert (messageTable , textutils.serialize({id=R_id,msg=R_msg}))
 				end
 			end
 		end
@@ -74,6 +72,11 @@ function Receive(id)
 		rednet.send(id, "BUSY")
 		return "Error"
 	end
+end
+
+function getMessage()
+	msg= table.remove(messageTable, 1)
+	return textutils.unserialize(msg)
 end
 
 function WhoIs(Name)
