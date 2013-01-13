@@ -1,4 +1,4 @@
-<<<<-- MoQleShon Network Protocol API by Liltine & Eiryna v1.0
+-- MoQleShon Network Protocol API by Liltine & Eiryna v1.0
 
 local R_busy = false
 local netside = "right"
@@ -17,8 +17,8 @@ function Send(id, msg)
 	local ten =  0
 	local MsgAkn = false
 		
-	rednet.send(id,"INC_MSG")
 	while (MsgLoop == false) do
+		rednet.send(id,"INC_MSG")
 		local S_id, S_msg, S_dist = rednet.receive()
 		if S_id == id then
 			if S_msg == "LIS_MSG" then
