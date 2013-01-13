@@ -1,4 +1,4 @@
--- MoQleShon Network Protocol API by Liltine & Eiryna v1.0
+<<<<-- MoQleShon Network Protocol API by Liltine & Eiryna v1.0
 
 local R_busy = false
 local netside = "right"
@@ -24,7 +24,7 @@ function Send(id, msg)
 			if S_msg == "LIS_MSG" then
 				rednet.send(id, msg)
 				MsgLoop = true
-			elseif S_MSG == "BUSY" then
+			elseif S_msg == "BUSY" then
 				ten = ten + 1
 				if ten == 5 then 
 					MsgAkn = false
@@ -42,10 +42,10 @@ function Send(id, msg)
 		if S_id == id then
 			if S_msg == "RCV_OK" then
 				MsgAkn = true
-				MsgLoop = false
-			else
-				MsgAkn = false
+			        MsgLoop = false
 			end
+		else
+			rednet.send(S_id,"BUSY")
 		end
 	end
 	return MsgAkn
