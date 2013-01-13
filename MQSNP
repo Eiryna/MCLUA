@@ -34,8 +34,7 @@ function Send(id, msg)
 				return false
 			end
 		else
-			rednet.send(id, "BUSY")
-			return "Error"
+			rednet.send(S_id, "BUSY")
 		end
 	end
 	while MsgLoop do
@@ -59,9 +58,18 @@ function Receive()
 			rednet.send(RS_id, "LIS_MSG")
 			while loop do
 				local R_id, R_msg, R_dist = rednet.receive()
-					rednet.send(R_id, "RCV_OK")
-					loop = false
-					table.insert (messageTable , textutils.serialize({id=R_id,msg=R_msg}))
+				    if (R_id==RS_id) then
+						if not (R_msg=="BUSY") then
+							rednet.send(R_id, "RCV_OK")
+							loop = false
+							table.insert (messageTable , textutils.serialize({id=R_id,msg=R_msg}))
+						else
+							os.sleep(1)
+							rednet.send(RS_id, "LIS_MSG")
+						end
+					else
+						rednet.send(R_id, "BUSY")
+					end
 				end
 			end
 		end
