@@ -40,7 +40,7 @@ function Activate()
 	term.write("DHCP Server Online")
 	rednet.broadcast("DHCP Online")
 	
-	parallel.waitForAll(HndKey, Listening)
+	parallel.waitForAll(HndKey, MainDHCP, MsgProcessing)
 end
 
 function HndKey()
@@ -55,41 +55,20 @@ function HndKey()
 	end
 end
 
-function Listening()
-	local temp_msg = {}
+function mainDHCP()
 	while continue do
-		local L_id, L_msg, L_dist = rednet.receive(5)
-		if not (L_id == nil) then
-			temp_msg = textutils.unserialize(L_msg)
-			if not( temp_msg == nil) then
-					for tkey , tdata in pairs(temp_msg) do
-						print("key : "..tkey.." data : "..tdata)
-					end
-				if temp_msg["msg"] == "HELLO" then
-					print (temp_msg["typ"])
-				elseif temp_msg["msg"] == "WHOIS" then
-					if temp_msg["n"] == os.getComputerLabel() then
-						local f_id = tostring(os.getComputerID())
-						MQSNP.Send(L_id, f_id)
-					end
-				end
-			end
-		end
+		MQSNP.Receive()
 	end
 end
 
-function Hello()
-	local r_msg
+
+function MsgProcessing()
+	local tmp
 	while continue do
-		local H_id, H_msg, H_dist = rednet.receive(5)
-		if not (H_id == nil) then
-			if H_msg == "HELLO" then
-				if (isRegistered == false) then
-					if MQSNP.Send(H_id, "WHO_MSG") then
-						r_msg = MQSNP.Receive(H_id)
-						term.write(r_msg)
-					end
-				end
+		tmp = MQSNP.getMessage()
+		if not (tmp == nil) then
+			if tmp["canal"] == "WHO_RSP" then
+				-- Va savoir Charles!
 			end
 		end
 	end

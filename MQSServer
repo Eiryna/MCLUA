@@ -1,11 +1,12 @@
 -- MQSServer by Liltine & Eiryna v1.0
 
-os.loadAPI("MQSDHCP")
+
 
 local function printUsage()
 	print("Usages :")
 	print("MQSServer <server type>")
 	print ("DHCP for DHCP server")
+	print("SRVLIQ for Liquid Survey Server")
 end
 
 local tArgs = { ... }
@@ -17,6 +18,10 @@ end
 local tserver = tArgs[1]
 
 if tserver == "DHCP" then
+	os.loadAPI("MQSDHCP")
 	MQSDHCP.netside = "right"
 	MQSDHCP.Init()
+elseif tserver == "SRVLIQ" then
+	os.loadAPI("MQSLIQ")
+	MQSLIQ.Init()
 end
