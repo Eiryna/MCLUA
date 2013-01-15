@@ -5,9 +5,10 @@ os.loadAPI("MQSNP")
 local network
 local monitor
 local netside = "right"
-local monside = "rear"
+local monside = "back"
 local monX, monY
 local termX, termY
+local continue = true
 
 function Init()
 	term.clear()
@@ -31,7 +32,7 @@ function mainLIQ()
 end
 
 function HndKey()
-	term.setCursor(1, monY)
+	term.setCursorPos(1, monY)
 	term.write("Press X to Exit")
 	while continue do
 		local event, param = os.pullEvent("key")
@@ -52,6 +53,7 @@ function MsgProcessing()
 			if tmp["canal"] == "SRV_LIQ" then
 				-- Va savoir Charles!
 				print(tmp["msg"])
+				monitor.write(tmp["msg"])
 			end
 		end
 	end
